@@ -8,7 +8,7 @@ class Product extends Model {}
 
 // set up fields and rules for Product model
 Product.init(
-  { // define columns
+  { // column definitions 
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
