@@ -36,6 +36,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new tag
+  //passes check
   try {
     const tagData = await Tag.create(req.body);
     res.status(200).json(tagData);
@@ -44,8 +45,24 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
+  //passes check 
+  const tagID = req.params.id;
+  const { tag_name } = req.body;
+
+  try {
+    const tag = await Tag.findByPk(tagID);
+    if (!tag) {
+      res.status(404).json({ message: "No tag found with this id"});
+      return;
+    }
+    tag.tag_name = tag_name;
+    await tag.save();
+    res.json(tag);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 router.delete('/:id', async (req, res) => {
