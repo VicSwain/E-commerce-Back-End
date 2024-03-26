@@ -2,11 +2,8 @@ const router = require("express").Router();
 const { Product, Category, Tag, ProductTag } = require("../../models");
 // The `/api/products` endpoint
 
-// get all products
+// get route to fina all products
 router.get("/", async (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
-  //passed check
   try {
     const productData = await Product.findAll({
       include: [
@@ -23,11 +20,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// get one product
+// get route to find a product by its id, including its associated Category and Tag data
 router.get("/:id", async (req, res) => {
-   // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
-  // passed check
   try {
     const product = await Product.findByPk(req.params.id, { include: [
       Category,
@@ -118,13 +112,13 @@ router.put("/:id", (req, res) => {
       return res.json(product);
     })
     .catch((err) => {
-      // console.log(err);
+
       res.status(400).json(err);
     });
 });
 
+// delete one product by its `id` value
 router.delete("/:id", async (req, res) => {
-  // delete one product by its `id` value
   try {
     const productData = await Product.destroy({
       where: {
